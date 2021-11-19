@@ -9,12 +9,13 @@ const styles = StyleSheet.create({
       flexWrap: "wrap",
     },
     card: {
-        width: "40%",
+        width: "44%",
       backgroundColor: "#fff",
       alignItems: "center",
       justifyContent: "center",
       padding: 20,
       shadowColor: "#000",
+      marginTop: 15,
       margin: 10,
       shadowOffset: {
           width: 0,
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     text: {
       backgroundColor: "red",
       color: "#ffff",
-      fontSize: 24,
+      fontSize: 12,
       padding: 20,
     },
   });
