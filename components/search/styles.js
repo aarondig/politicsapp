@@ -1,6 +1,24 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+page: {
+flex: 1,
+
+alignContent: "center",
+flexDirection: "column",
+
+},
+pageAfter: {
+  flex: null
+},
+  inputBefore: {
+   
+    height: 60,
+  margin: 20,
+  borderWidth: 1,
+  padding: 10,
+  borderRadius: 100,
+  },
     container: {
       flex: 1,
       flexDirection: "row",
@@ -15,6 +33,14 @@ const styles = StyleSheet.create({
     //   paddingTop: 40,
     //   flexWrap: "wrap",
     // },
+    
+    inputAfter: {
+      height: 60,
+    margin: 20,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 100,
+    },
     card: {
       width: "100%",
       backgroundColor: "#ffff",
@@ -44,6 +70,8 @@ const styles = StyleSheet.create({
     //   shadowRadius: 30,
       
     // },
+
+
     textContainer: {
       width: "70%",
       flexDirection: "column",
@@ -64,13 +92,7 @@ const styles = StyleSheet.create({
       fontWeight: "400",
       
     },
-    input: {
-      height: "20%",
-    margin: 20,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 100,
-    },
+ 
     party: {
       padding: 10,
       width: "15%",
