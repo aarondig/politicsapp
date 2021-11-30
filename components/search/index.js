@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, TextInput } from "react-native";
 import styles from "./styles.js";
 
 const Search = () => {
@@ -26,25 +26,70 @@ const Search = () => {
     }
   };
 
+  //Search
+  const [input, setInput] = useState();
+  // const [filtered, setFiltered] = useState();
 
+  // const searchSubmit = async () => {
+  //   setFiltered(data.filter(i => (i.last_name.toLowerCase() || i.first_name.toLowerCase() === input)))
 
-//Return Mapping
-let size = 10;
+  // }
 
-  const response = data && data.slice(0, size).map(i => {
-    return <View style={styles.card}>
-    <Text style={styles.text}>{i.first_name} {i.last_name}</Text>
-  </View>
-  })
+  //Return Mapping
+  
+  // const search = new RegExp(`(?<Name>${input})`)
+  const response =
+    data &&
+    data
+      .filter(function(res) {
+        if (res.first_name.toLowerCase() === input.toLowerCase()) {
+        return res;
+        } else {
+          return null;
+        }
+      })
+      .map((i) => {
+        console.log(i);
+        return (
+          <View style={styles.card}>
+            <Text style={styles.text}>
+              {i.first_name} {i.last_name}
+            </Text>
+          </View>
+        );
+      });
 
+  
+    
+      
+          
+      
+      
+ 
+    
+    
+ 
 
   return (
     <View>
-      <View style={styles.container}>
-  {response}
-      </View>
+      <TextInput
+        style={styles.input}
+        placeholder="Search"
+        textAlign="center"
+        value={input}
+        onChangeText={(text) => setInput(text)}
+        // onSubmitEditing={() => searchSubmit()}
+        onSubmitEditing={() => requestData()}
+      />
+      <View style={styles.container}>{response}</View>
       <Pressable
-        style={{ position: "fixed", bottom: -600, padding: 30, backgroundColor: "#151515", borderRadius: 100 }}
+        style={{
+          position: "fixed",
+          bottom: -600,
+          padding: 30,
+          backgroundColor: "#151515",
+          borderRadius: 100,
+        }}
         onPress={() => {
           requestData();
         }}

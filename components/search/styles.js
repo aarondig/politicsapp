@@ -31,6 +31,13 @@ const styles = StyleSheet.create({
       fontSize: 12,
       padding: 20,
     },
+    input: {
+      height: "20%",
+    margin: 20,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 100,
+    }
   });
 
 export default styles;
