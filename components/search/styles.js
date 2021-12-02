@@ -80,7 +80,7 @@ pageAfter: {
     text: {
       color: "#252525",
       fontSize: 18,
-      fontFamily: "poppins",
+      fontFamily: "System",
       fontWeight: "600",
       paddingBottom: 10,
       
@@ -88,7 +88,7 @@ pageAfter: {
     subtext: {
       color: "#252525",
       fontSize: 12,
-      fontFamily: "poppins",
+      fontFamily: "System",
       fontWeight: "400",
       
     },
