@@ -57,7 +57,8 @@ const Search = ({navigation}) => {
       })
       .map((i, index) => {
         return (
-          <Pressable style={styles.card} onPress={() => {navigation.navigate('Profile', {i: i, index: index})}}>
+          <Pressable style={styles.card} onPress={() => {navigation.navigate('Profile', {i: i, index: index, params: {screen: 'Votes', i: i, index: index}},
+          )}}>
             {i.party === "R" ? (
               <View style={{ backgroundColor: "red", ...styles.party }}>
                 <FontIcon

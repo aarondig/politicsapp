@@ -8,19 +8,37 @@ import {
   TextInput,
   ScrollView,
   Image,
+  
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import FontIcon from "react-native-vector-icons/FontAwesome5";
 import styles from "./styles.js";
 import States from "./states.json";
 import ProfileTabs from "./profileTabs/index";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Profile = ({ route, navigation }) => {
   const { i, index } = route.params;
-  console.log(i);
+  // const [data, setData] = useState();
+  // var data = Object.entries(States);
 
-  var data = Object.entries(States);
+  // useEffect(()=>{
+  //   setData(i)
+  // },[])
+
+  // useEffect(()=>{
+  //   const load = () => {
+  //     navigation.replace('Votes', {i: data})
+  //   }
+  //   if (data !== null) {
+  //     load();
+  //   }
+  // },[data])
+  
+// if (load === true) {
+//   () => {navigation.navigate('Votes', {i: i, index: index})}
+// }
+
   return (
     <SafeAreaView style={styles.wrapper}>
       <View style={styles.innerWrapper}>
@@ -86,27 +104,23 @@ const Profile = ({ route, navigation }) => {
             <Icon name="plus" size={18} color="#ffffff"></Icon>
           </Pressable>
           <View style={styles.insightsContainer}>
-          <View style={styles.insight}>
+            <View style={styles.insight}>
               <Text style={styles.insightLabel}>Party</Text>
               <Text style={styles.insightVal}>{i.party}</Text>
             </View>
-           
+
             <View style={styles.insight}>
               <Text style={styles.insightLabel}>Votes</Text>
               <Text style={styles.insightVal}>{i.total_votes}</Text>
             </View>
             <View style={styles.insight}>
               <Text style={styles.insightLabel}>Next Election</Text>
-              <Text style={styles.insightVal}>
-                {i.next_election}
-              </Text>
+              <Text style={styles.insightVal}>{i.next_election}</Text>
             </View>
           </View>
         </View>
       </View>
-      <ProfileTabs>
-
-      </ProfileTabs>
+      <ProfileTabs/>
     </SafeAreaView>
   );
 };

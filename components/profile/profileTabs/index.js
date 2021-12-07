@@ -9,6 +9,7 @@ import {
   ScrollView,
   Image,
 } from "react-native";
+import Home from "./home/index";
 import Votes from "./votes/index";
 import Spending from "./spending/index";
 import styles from "./styles.js";
@@ -18,18 +19,17 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 const Tab = createMaterialTopTabNavigator();
 
 const ProfileTabs = () => {
+  
   return (
     <Tab.Navigator style={styles.navigator}>
-      <Tab.Screen name="Votes" component={Votes} />
+      <Tab.Screen name="Home" component={Home}/>
+      <Tab.Screen name="Votes" component={Votes}/>
       <Tab.Screen name="Spending" component={Spending} />
     </Tab.Navigator>
   );
 }
 export default ProfileTabs;
 
-// const Votes = ({ route, navigation }) => {
-//   const { i, index } = route.params;
-//   console.log(i);
 
  
 //   return (

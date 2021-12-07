@@ -3,8 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-
-    backgroundColor: "#151515",
+    backgroundColor: "#ffffff",
     flexDirection: "column",
   },
 
@@ -35,6 +34,22 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "600",
     lineHeight: 26,
+  },
+  follow: {
+    width: 110,
+    height: 38,
+    padding: 10,
+    paddingLeft: 19,
+    paddingRight: 19,
+    backgroundColor: "#252525",
+    borderRadius: 10,
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  followText: {
+    fontSize: 15,
+    color: "white",
+    fontWeight: "600",
   },
 
 });
