@@ -120,7 +120,7 @@ const Profile = ({ route, navigation }) => {
           </View>
         </View>
       </View>
-      <ProfileTabs/>
+      <ProfileTabs route={route}/>
     </SafeAreaView>
   );
 };

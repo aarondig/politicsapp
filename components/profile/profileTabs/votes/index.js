@@ -10,10 +10,7 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import {
-  LineChart,
-  ProgressChart,
-} from "react-native-chart-kit";
+
 
 import styles from "./styles.js";
 

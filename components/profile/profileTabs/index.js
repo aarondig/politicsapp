@@ -18,13 +18,13 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 const Tab = createMaterialTopTabNavigator();
 
-const ProfileTabs = () => {
-  
+const ProfileTabs = ({route, navigation}) => {
+  const { i, index } = route.params;
   return (
     <Tab.Navigator style={styles.navigator}>
-      <Tab.Screen name="Home" component={Home}/>
-      <Tab.Screen name="Votes" component={Votes}/>
-      <Tab.Screen name="Spending" component={Spending} />
+      <Tab.Screen name="Home" component={Home} initialParams={{ i: i }}/>
+      <Tab.Screen name="Votes" component={Votes} initialParams={{ i: i }}/>
+      <Tab.Screen name="Spending" component={Spending} initialParams={{ i: i }}/>
     </Tab.Navigator>
   );
 }
