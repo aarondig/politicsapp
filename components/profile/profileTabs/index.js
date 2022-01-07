@@ -43,7 +43,7 @@ const ProfileTabs = ({route, navigation, d, loading}) => {
       <Tab.Screen name="Home" component={Home} initialParams={{ i: i, d: d, loading: loading}} options={{
         tabBarIcon: ({focused}) => (
           <View style={{justifyContent: "center", alignItems: "center"}}>
-            <SvgUri uri={ProfileIcon}></SvgUri>
+            <SvgUri height={iconSize} width={iconSize * 2} uri={"https://raw.githubusercontent.com/aarondig/politicsapp/80c4278a9e580a77baec3bd63fde93cb29334e26/assets/Icons/ProfileIcon.svg"}></SvgUri>
           </View>
         )
       }}/>
