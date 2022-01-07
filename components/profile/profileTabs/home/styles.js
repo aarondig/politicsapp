@@ -10,31 +10,32 @@ const styles = StyleSheet.create({
   innerWrapper: {
     flex: 1,
     flexDirection: "column",
-    marginLeft: "5%",
-    marginRight: "5%",
-    marginTop: "8%",
-  },
-  insightsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     marginLeft: "8%",
     marginRight: "8%",
+    marginTop: "8%",
   },
-  insight: {
-    justifyContent: "space-between",
-    flexDirection: "column",
+  about: {
+
   },
-  insightLabel: {
-    color: "#707070",
-    fontSize: 10,
-    marginBottom: 5,
-  },
-  insightVal: {
-    color: "#252525",
-    fontSize: 22,
+  header: {
+    fontSize: 28,
+    fontFamily: "System",
     fontWeight: "600",
-    lineHeight: 26,
+    marginBottom: "3%"
+
   },
+  p: {
+    fontSize: 16,
+    fontFamily: "System",
+    fontWeight: "300",
+  },
+
+  //Issues
+
+  issue: {
+
+  },
+
   follow: {
     width: 110,
     height: 38,

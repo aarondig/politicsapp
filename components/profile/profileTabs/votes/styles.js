@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
 
-    backgroundColor: "#151515",
+    backgroundColor: "#ffffff",
     flexDirection: "column",
   },
 

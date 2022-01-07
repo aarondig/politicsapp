@@ -14,90 +14,45 @@ import { TabBarItem } from "react-native-tab-view";
 
 import styles from "./styles.js";
 
-const Home = ({ route, navigation }) => {
-  const { i, index } = route.params;
-  const { data, setData } = useState();
-  const cheerio = require("cheerio");
-  var list = {};
+const Home = ({ route, navigation}) => {
+  const { i, index, d, loading} = route.params;
 
-  const scrapeData = async () => {
-    const searchUrl = `https://www.govtrack.us/congress/members/${i.id}`;
-    const response = await fetch(searchUrl);
-    const htmlString = await response.text();
-    const $ = cheerio.load(htmlString, {
-      xmlMode: true,
-      decodeEntities: false,
-      normalizeWhitespace: true,
-      scriptingEnabled: true,
-    });
+// const Issues = () => {
+//   Object.keys(d.bills.issues).map((item, key) => {
+// console.log(item)
+//     return <View style={styles.issue} key={key}>
+//       <View style={styles.iHeaderC}>
+//       <Text style={styles.iHeaderST}>{d.bills.issues[key]}</Text>
+//       <Text style={styles.iHeaderT}>{d.bills.issues[key]}</Text>
+//       </View>
+//     </View>
+//   })
+// }
 
-    //Key Votes Table
-
-    $("#voting-record > div.row > div").each((key, bill) => {
-      
-
-      list[key] = {
-        num: $(
-          `#voting-record > div.row > div:nth-child(${key}) > div > div > div:nth-child(1) > a`
-        )
-          .text()
-          .trim()
-          .slice(0, 10)
-          .trim(),
-        title: $(
-          `#voting-record > div.row > div:nth-child(${key}) > div > div > div:nth-child(1) > a`
-        )
-          .text()
-          .trim()
-          .slice(10)
-          .trim(),
-        vote: $(
-          `#voting-record > div.row > div:nth-child(${key}) > div > h4 > b`
-        )
-          .text()
-          .trim(),
-        date: $(
-          `#voting-record > div.row > div:nth-child(${key}) > div > div > div:nth-child(2) > div:nth-child(1)`
-        )
-          .text()
-          .trim().slice(-13, -1).trim(),
-        description: $(
-          `#voting-record > div.row > div:nth-child(${key}) > div > div > div:nth-child(2)`
-        )
-          .text()
-          .trim().slice(31).trim(),
-        status: $(
-          `#voting-record > div.row > div:nth-child(${key}) > div > div > div:nth-child(2) > div:nth-child(1)`
-        )
-          .text()
-          .trim().slice(0, 6),
-        count: $(
-            `#voting-record > div.row > div:nth-child(${key}) > div > div > div:nth-child(2) > div:nth-child(1)`
-          )
-            .text()
-            .trim().slice(7, 14).trim(),
-        
-      };
-
-      
-    });
-    console.log(list);
-  };
-  var sum = scrapeData();
- 
-
-  useEffect(() => {});
   return (
     <View style={styles.wrapper}>
+      {loading ? <></> :
       <View style={styles.innerWrapper}>
-        <Text style={styles.header}>Home</Text>
-        <View>
-          <Pressable style={styles.follow} onPress={() => scrapeData()}>
-            <Text style={styles.followText}>do something</Text>
-          </Pressable>
+        <View style={styles.about}>
+       <Text style={styles.header}>About</Text>
+        <Text style={styles.p}>{d.about}</Text>
         </View>
+        <View style={styles.issues}>
+        {/* <Text style={styles.header}>Sponsored Issues</Text>
+        <Issues/> */}
+        </View>
+      
       </View>
+      }
     </View>
+    
   );
 };
 export default Home;
+
+
+{/* <View style={styles.}> */}
+          {/* <Pressable style={styles.follow} onPress={() => {}}>
+            <Text style={styles.followText}>do something</Text>
+          </Pressable> */}
+        {/* </View> */}

@@ -30,7 +30,9 @@ const Search = ({navigation}) => {
             method: "GET",
             headers: {
               "X-Api-Key": "boSbGSKgKnoMtdwEjxT0a8Bymy6LaOIaJGWAX0dY ",
+              in_office: true,
             },
+            
           }
         );
         const json = await response.json();
