@@ -1,4 +1,4 @@
-<script src="http://localhost:8097"></script>
+<script src="http://localhost:8097"></script>;
 import { NavigationContainer } from "@react-navigation/native";
 import React, { useEffect, useReducer, useState } from "react";
 import {
@@ -8,15 +8,17 @@ import {
   Pressable,
   TextInput,
   ScrollView,
-  Image, Linking,
+  Image,
+  Linking,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import FontIcon from "react-native-vector-icons/FontAwesome5";
 import styles from "./styles.js";
-import States from "./states.json";
 import ProfileTabs from "./profileTabs/index";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Bills from "./profileTabs/Bills/index.js";
+import TopNav from "../topnav/index.js";
+import { states } from "../../data/states.js";
 
 const Profile = ({ route, navigation }) => {
   const { i, index } = route.params;
@@ -36,6 +38,9 @@ const Profile = ({ route, navigation }) => {
   const [d, setD] = useState(data);
   const [loading, setLoading] = useState(true);
 
+  const [bio, setBio] = useState();
+  const [shortBio, setShortBio] = useState();
+
   const scrapeData = async () => {
     const searchUrl = `https://www.govtrack.us/congress/members/${i.id}`;
     const response = await fetch(searchUrl);
@@ -48,7 +53,7 @@ const Profile = ({ route, navigation }) => {
       .text()
       .replace(/\s+/g, " ")
       .replace("(view map) ", "")
-      .trim()
+      .trim();
 
     // Bills
     // Issue Areas
@@ -129,8 +134,7 @@ const Profile = ({ route, navigation }) => {
           .split(" ")[1],
       };
     });
-
-    setLoading(false);
+    scrapeCallback();
   };
   useEffect(() => {
     navigation.navigate("Home", { loading: loading });
@@ -140,9 +144,18 @@ const Profile = ({ route, navigation }) => {
     scrapeData();
     setD(data);
   }, []);
-console.log(i)
+
+  const scrapeCallback = () => {
+    const bioSplit = d.about.split(". ")[0] + ".";
+    setShortBio(bioSplit);
+    setBio(d.about.replace(bioSplit + " ", ""));
+
+    setLoading(false);
+  };
+
   return (
     <SafeAreaView style={styles.wrapper}>
+      <TopNav navigation={ navigation }/>
       <View style={styles.innerWrapper}>
         <View style={styles.headerContainer}>
           <View style={styles.col}>
@@ -159,20 +172,18 @@ console.log(i)
           <View
             style={{ flex: 1, justifyContent: "center", flexDirection: "row" }}
           >
-            <View style={styles.headerCol}>
-            <Text style={styles.name}>
+            {/* <View style={styles.headerCol}>
+              <Text style={styles.name}>
                   {i.first_name + " " + i.last_name}
                 </Text>
               <View style={styles.titleContainer}>
                 <Text style={styles.subtitle}>
                   {i.state + ". " + (i.title.match("Senator") || i.title.match("Representative"))}
                 </Text>
-                
               </View>
 
-              {/* Icon Row */}
-
-              {/* <View style={styles.iconRow}>
+              Icon Row
+              <View style={styles.iconRow}>
                 <Pressable style={styles.style}>
                   <Icon
                     style={styles.icon}
@@ -197,11 +208,11 @@ console.log(i)
                     color="#252525"
                   />
                 </Pressable>
-              </View> */}
-            </View>
-            
+              </View>
+            </View> */}
           </View>
         </View>
+
         {/* <View style={styles.bottomRow}>
           <Pressable style={styles.follow}>
             <Text style={styles.followText}>Follow</Text>
@@ -223,15 +234,47 @@ console.log(i)
             </View>
           </View>
         </View> */}
-        {loading ? <></> :
-        <View style={styles.bio}>
-        <Text style={styles.p}>{(d.about).split(". ")[0] + "."}</Text>
-        <Text style={styles.link} onPress={() => Linking.openURL(i.url)}>{i.url}</Text>
-        </View>
-        }
+        {loading ? (
+          <></>
+        ) : (
+          <View style={styles.bio}>
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>
+                {i.first_name + " " + i.last_name}
+              </Text>
+              <Text style={styles.subtitle}>
+                {i.title.match("Senator") || i.title.match("Rep")} of{" "}
+                {states[i.state]}{" "}
+                {i.district !== undefined && `District ${i.district}`}
+              </Text>
+            </View>
+            <Text style={styles.p}>{shortBio}</Text>
+            <Text style={styles.link} onPress={() => Linking.openURL(i.url)}>
+              {i.url.split(".")[1] + "." + i.url.split(".")[2] + "." + i.url.split(".")[3]}
+            </Text>
+          </View>
+        )}
+        <View style={styles.buttonrow}>
+        <Pressable style={styles.primarybutton}>
+            <Text style={styles.primarybuttontext}>Follow</Text>
+            {/* <Icon name="plus" size={18} color="#ffffff"></Icon> */}
+          </Pressable>
+          <Pressable style={styles.secondarybutton}>
+            <Text style={styles.secondarybuttontext}>Share Profile</Text>
+            {/* <Icon name="plus" size={18} color="#ffffff"></Icon> */}
+          </Pressable>
+          <Pressable style={styles.iconbutton}>
+            {/* <Text style={styles.secondarybuttontext}>Share Profile</Text> */}
+            <Icon name="plus" size={18} color="#111315"></Icon>
+          </Pressable>
+         
+          
+          </View>
       </View>
-      <ProfileTabs route={route} d={d} loading={loading} />
+      
+      <ProfileTabs route={route} d={d} bio={bio} loading={loading} />
     </SafeAreaView>
+    
   );
 };
 export default Profile;

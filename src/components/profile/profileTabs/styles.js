@@ -1,43 +1,36 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
- content: {
-    
-  },
-  
+  content: {},
+
   tabbar: {
     backgroundColor: "white",
-maxWidth: "100%",
-height: "13%",
-    
-    borderColor: "white",
+    maxWidth: "100%",
+    // height: "13%",
+    shadowColor: "#EFEEF1",
+    height: 54,
   },
-  
+
   item: {
-    
-    borderWidth: 0,
-    borderColor: "#f4f4f4",
-    borderRadius: 10,
-    minHeight: 50,
   
+    minHeight: 50,
   },
   // },
-  // label: {
-  //  fontFamily: "Poppins",
-  //  fontSize: 16,
-  //  textTransform: "capitalize",
-
-  // },
+  label: {
+  //  fontFamily: "Inter",
+   fontSize: 16,
+   textTransform: "capitalize",
+   fontWeight: "400"
+  },
   indicatorContainer: {
-   
-    // marginBottom: "2%"
-   
+    borderBottomWidth: 1,
+   borderBottomColor: "#EFEEF1",
   },
-   indicator: {
+  indicator: {
     backgroundColor: "black",
-    borderRadius: 10,
     borderWidth: 0,
-
+    height: 1,
+    marginBottom: -1
   },
 
   // indicator: {
@@ -48,10 +41,6 @@ height: "13%",
   //   maxWidth: "75%",
   //   maxHeight: "100%",
   // }
-
-
- 
-
 });
 
 export default styles;
