@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import React, { useEffect, useReducer, useState } from "react";
 import Home from "./home/index";
 import Votes from "./votes/index";
-import Bills from "./Bills/index";
+import Bills from "./bills/index";
 import Spending from "./spending/index";
 import styles from "./styles.js";
 import { SvgUri } from 'react-native-svg';
@@ -35,9 +35,6 @@ const ProfileTabs = ({route, navigation, d, bio,loading}) => {
       tabBarScrollEnabled: false,
       tabBarShowIcon: true,
       tabBarShowLabel: true,
-
-
-
 
     }}>
       <Tab.Screen name="Home" component={Home} initialParams={{ i: i, d: d, bio, loading: loading}} options={{

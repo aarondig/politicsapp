@@ -24,19 +24,40 @@ pageAfter: {
   flex: null
 },
 
+section: {
+  display: "flex",
+  flexDirection:"column",
 
+  paddingLeft: 24,
+  paddingRight: 24,
+  paddingTop: 24,
+  paddingBottom: 24,
+  borderBottomWidth: 1,
+  borderBottomColor: "#EFEEF1",
+  // alignItems: "center"
+    },
+pagetitle: {
+  color: "#111315",
+      fontSize: 24,
+      fontFamily: "System",
+      fontWeight: "500",
+      paddingBottom: 18,
+      alignItems: "center",
+
+},
 
 searchbar: {
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-height: 60,
-margin: 24,
+height: 45,
+// margin: 24,
 borderWidth: 1,
 padding: 12,
-borderRadius: 12,
-borderColor: "#EFEEF1",
-justifyContent: "flex-start"
+// borderRadius: 12,
+borderRadius: 100,
+borderColor: "#EAEAED",
+justifyContent: "flex-start",
 },
 searchbaricon: {
 padding: 0,
@@ -45,7 +66,6 @@ paddingRight: 12,
 },
 placeholder: {
   color: "#AFB1B7",
-  fontSize: 40,
 },
 input: {
 minHeight: 60,

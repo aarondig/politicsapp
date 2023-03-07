@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent:"center",
     marginTop: 16,
-    marginBottom: 16,
+    marginBottom: 8,
   },
   title: {
     color: "#111315",

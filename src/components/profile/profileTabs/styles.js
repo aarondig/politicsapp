@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     borderWidth: 0,
     height: 1,
-    marginBottom: -1
+    marginBottom: -1,
   },
 
   // indicator: {

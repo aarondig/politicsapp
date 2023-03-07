@@ -24,11 +24,13 @@ const Search = ({ navigation }) => {
     setDownloaded(false);
   }, []);
 
+  // CONGRESS API KEY
+// 6e69258c-76a6-4ff3-b5b7-6cc39152fe98
   const requestData = async () => {
     try {
       if (!downloaded) {
         const response = await fetch(
-          "https://api.propublica.org/congress/v1/117/house/members.json",
+          "https://api.propublica.org/congress/v1/117/senate/members.json",
           {
             method: "GET",
             headers: {
@@ -140,11 +142,16 @@ const Search = ({ navigation }) => {
     <SafeAreaView style={styles.wrapper}>
       <TopNav navigation={ navigation }/>
       <View style={!downloaded ? { ...styles.page } : { ...styles.pageAfter }}>
+      <ScrollView>
+      <View style={styles.section}>
+        <View style={styles.row}>
+        <Text style={styles.pagetitle}>Search</Text>
+        </View>
         <View style={styles.searchbar}>
           <FeatherIcon
             style={styles.searchbaricon}
             name="search"
-            size={22}
+            size={20}
             color="#AFB1B7"
           />
           <TextInput
@@ -160,7 +167,8 @@ const Search = ({ navigation }) => {
             onSubmitEditing={() => requestData()}
           />
         </View>
-        <ScrollView>
+        </View>
+        
           <View style={styles.container}>{response}</View>
         </ScrollView>
       </View>

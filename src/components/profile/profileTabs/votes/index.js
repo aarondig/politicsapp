@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState, useCallback } from "react";
 import {
   SafeAreaView,
   View,
@@ -9,43 +9,72 @@ import {
   ScrollView,
   Image,
   Dimensions,
+  Linking
 } from "react-native";
-
+import FeatherIcon from "react-native-vector-icons/Feather";
 
 import styles from "./styles.js";
 
+const Votes = ({ route, navigation }) => {
+  const { i, index, d, bio, loading } = route.params;
 
+  console.log(d.votes);
 
-const Votes = ({ route, navigation}) => {
+  function truncate(str, n){
+    return (str.length > n) ? str.slice(0, n-1) + '...' : str;
+  };
 
-// const {i, index} = route.params;
-
-
+  
+  
   return (
-    
-    <View style={styles.wrapper}>
+    <ScrollView style={styles.wrapper}>
       
-       <View style={styles.innerWrapper}>
-      <Text style={styles.header}>votes</Text>
-      <View>
-   
-      {/* <View style={styles.insightsContainer}>
-            <View style={styles.insight}>
-              <Text style={styles.insightLabel}>Party</Text>
-              <Text style={styles.insightVal}>{i.party}</Text>
-            </View>
 
-            <View style={styles.insight}>
-              <Text style={styles.insightLabel}>Votes</Text>
-              <Text style={styles.insightVal}>{i.total_votes}</Text>
-            </View>
-            <View style={styles.insight}>
-              <Text style={styles.insightLabel}>Next Election</Text>
-              <Text style={styles.insightVal}>{i.next_election}</Text>
-            </View>
-          </View> */}
-        
-  {/* <LineChart
+        <View style={styles.carousel}>
+          <Text style={styles.carouseltitle}>Key Votes</Text>
+          <ScrollView style={styles.cardscroll} contentContainerStyle={{
+    paddingRight: 32,
+  }} horizontal={true}>
+            {d.votes.map((el, i) => {
+              return (
+                <Pressable style={styles.card} key={i} 
+                onPress={()=>{ Linking.openURL(el.link)}}>
+                  <View style={styles.innercard}>
+                    <View style={styles.row}>
+                    {el.vote === "Yea" ? (
+                      <View style={styles.voteicon_yes}>
+                        <FeatherIcon
+                          // style={styles.cardicon}
+                          name={"thumbs-up"}
+                          size={18}
+                          color={"#fff"}
+                        />
+                      </View>
+                    ) : (
+                      <View style={styles.voteicon_no}>
+                        <FeatherIcon
+                          // style={styles.cardicon}
+                          name={"thumbs-down"}
+                          size={18}
+                          color={"#fff"}
+                        />
+                      </View>
+                    )}
+                    <Text style={styles.title}>{el.num}</Text>
+      </View>
+          <View style={styles.textc}>
+                    <Text style={styles.text}>{truncate(el.title, 62)}</Text>
+                    </View>
+                  </View>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        </View>
+ 
+
+   
+      {/* <LineChart
     data={{
       labels: ["January", "February", "March", "April", "May", "June"],
       datasets: [
@@ -88,13 +117,31 @@ const Votes = ({ route, navigation}) => {
       borderRadius: 16
     }}
   /> */}
-  
-</View>
 
+      {/* </View> */}
+
+      <View style={styles.section}>
+        <View style={styles.column}>
+          <Text style={styles.title}>Total Votes</Text>
+          <Text style={styles.subtitle}>This Term</Text>
+        </View>
+        <Text style={styles.title}>{i.total_votes}</Text>
       </View>
-    
-    </View>
-  
+      <View style={styles.section}>
+        <View style={styles.column}>
+          <Text style={styles.title}>Votes Missed</Text>
+          <Text style={styles.subtitle}>This Term</Text>
+        </View>
+        <Text style={styles.title}>{i.missed_votes}</Text>
+      </View>
+      <View style={styles.section}>
+        <View style={styles.column}>
+          <Text style={styles.title}>Votes With Party</Text>
+          <Text style={styles.subtitle}>Percentage</Text>
+        </View>
+        <Text style={styles.title}>{i.votes_with_party_pct}%</Text>
+      </View>
+    </ScrollView>
   );
 };
 export default Votes;

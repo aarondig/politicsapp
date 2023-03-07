@@ -16,7 +16,7 @@ import FontIcon from "react-native-vector-icons/FontAwesome5";
 import styles from "./styles.js";
 import ProfileTabs from "./profileTabs/index";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Bills from "./profileTabs/Bills/index.js";
+
 import TopNav from "../topnav/index.js";
 import { states } from "../../data/states.js";
 
@@ -32,7 +32,7 @@ const Profile = ({ route, navigation }) => {
       recent: {},
       disclaimer: {},
     },
-    votes: {},
+    votes: [],
   };
 
   const [d, setD] = useState(data);
@@ -93,17 +93,28 @@ const Profile = ({ route, navigation }) => {
     $("#voting-record > div.row > div").each((key, bill) => {
       var index = key + 1;
 
-      data.votes[key + 1] = {
+      data.votes.push({
         num: $(
           `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
         )
-          .text()
-          .split(": ")[0],
+          .text().includes(":") ? ($(
+            `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
+          )
+            .text().includes("Nomination") ? "Nomination" : $(
+            `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
+          )
+            .text()
+            .split(": ")[0].split("(")[0]) : null,
         title: $(
           `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
         )
-          .text()
-          .split(": ")[1],
+          .text().includes(":") ? $(
+            `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
+          )
+            .text().split(": ")[1] : $(
+              `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
+            )
+            .text(),
         vote: $(
           `#voting-record > div.row > div:nth-child(${index}) > div > h4 > b`
         ).text(),
@@ -132,7 +143,10 @@ const Profile = ({ route, navigation }) => {
           .text()
           .trim()
           .split(" ")[1],
-      };
+          link: "https://www.govtrack.us/" + $(
+            `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
+          ).attr('href'),
+      });
     });
     scrapeCallback();
   };
@@ -143,6 +157,7 @@ const Profile = ({ route, navigation }) => {
   useEffect(() => {
     scrapeData();
     setD(data);
+    console.log(data)
   }, []);
 
   const scrapeCallback = () => {
@@ -234,9 +249,13 @@ const Profile = ({ route, navigation }) => {
             </View>
           </View>
         </View> */}
+
+
+
+{/*         
         {loading ? (
           <></>
-        ) : (
+        ) : ( */}
           <View style={styles.bio}>
             <View style={styles.titleContainer}>
               <Text style={styles.title}>
@@ -250,10 +269,12 @@ const Profile = ({ route, navigation }) => {
             </View>
             <Text style={styles.p}>{shortBio}</Text>
             <Text style={styles.link} onPress={() => Linking.openURL(i.url)}>
-              {i.url.split(".")[1] + "." + i.url.split(".")[2] + "." + i.url.split(".")[3]}
+              
+              
+              {i.short_title === "Sen." ? i.url.split(".")[1] + "." + i.url.split(".")[2] + "." + i.url.split(".")[3] : i.url.split("://")[1]}
             </Text>
           </View>
-        )}
+        {/* )} */}
         <View style={styles.buttonrow}>
         <Pressable style={styles.primarybutton}>
             <Text style={styles.primarybuttontext}>Follow</Text>
