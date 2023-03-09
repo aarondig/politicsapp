@@ -1,27 +1,58 @@
 import React from "react";
-import { View,Text, Pressable } from "react-native";
+import { View, SafeAreaView, Text, Pressable } from "react-native";
 import styles from "./styles.js";
-import FeatherIcon from "react-native-vector-icons/Feather";
+import FeatherIcon from "react-native-vector-icons/Ionicons";
 
-const TopNav = ({ navigation }) => {
+const TopNav = ({ route, navigation }) => {
 
-  return (<View style={styles.topnav}>
+if (route !== undefined) {
+  const { i, pagetitle } = route.params;
+  console.log(i)
+}
+ 
+  
+
+  return (
+  <View>
+  <SafeAreaView style={styles.navspacer}/>
+    <View style={styles.topnav}>
+
+   
+      {route !== undefined ?
+       <>
       <View style={styles.left}>
         {/* <Text style={styles.navusertext}>govtrack</Text> */}
+       
         <Pressable onPress={() => {
               navigation.navigate("Search")}}>
         <FeatherIcon
       style={styles.rightnavicon}
-      name="arrow-left"
+      name="ios-chevron-back-outline"
       size={26}
       color="#AFB1B7"
+      // iconStyle={{innerWidth: 1.2}}
     />
     </Pressable>
       </View>
-  <View style={styles.right}>
+      <View style={styles.center}>
+        <Text style={styles.navusertext} numberOfLines={1}>{route.params.pagetitle}</Text>
+        
+       
+      </View>
+      <View style={styles.right}>
+        {/* <Text style={styles.navusertext}>{route.params.pagetitle}</Text> */}
+        
+        {/* <Text style={styles.navusertext}>{route.params.pagetitle}</Text> */}
+      </View>
+   </> : <>
+   <View style={styles.left}>
+        <Text style={styles.lefttext}>govtrack</Text>
+       
+        
+      </View><View style={styles.right}>
     <FeatherIcon
       style={styles.navicon}
-      name="search"
+      name="ios-search-outline"
       size={26}
       color="#AFB1B7"
     />
@@ -31,11 +62,13 @@ const TopNav = ({ navigation }) => {
 
     <FeatherIcon
       style={styles.navicon}
-      name="menu"
+      name="ios-menu-outline"
       size={26}
       color="#AFB1B7"
     />
+    </View></> }
     </View>
+
 </View>
 )
 }

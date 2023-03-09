@@ -18,7 +18,6 @@ import styles from "./styles.js";
 const Votes = ({ route, navigation }) => {
   const { i, index, d, bio, loading } = route.params;
 
-  console.log(d.votes);
 
   function truncate(str, n){
     return (str.length > n) ? str.slice(0, n-1) + '...' : str;

@@ -26,7 +26,10 @@ const Profile = ({ route, navigation }) => {
   // GovTrack Scrapper
   const cheerio = require("cheerio");
   var data = {
-    about: {},
+    about: {
+      text: "",
+      served_since: "",
+    },
     bills: {
       issues: {},
       recent: {},
@@ -41,6 +44,14 @@ const Profile = ({ route, navigation }) => {
   const [bio, setBio] = useState();
   const [shortBio, setShortBio] = useState();
 
+
+  const scrapeCallback = () => {
+    const bioSplit = d.about.text.split(". ")[0] + ".";
+    setShortBio(bioSplit);
+    // setBio(d.about.replace(bioSplit + " ", ""));
+    setLoading(false);
+  };
+
   const scrapeData = async () => {
     const searchUrl = `https://www.govtrack.us/congress/members/${i.id}`;
     const response = await fetch(searchUrl);
@@ -49,11 +60,16 @@ const Profile = ({ route, navigation }) => {
       normalizeWhitespace: true,
     });
     //About
-    data.about = $("#track_panel_base > div > p")
+    data.about.text = $("#track_panel_base > div > p")
       .text()
       .replace(/\s+/g, " ")
       .replace("(view map) ", "")
       .trim();
+      data.about.served_since = $("#track_panel_base > div > p")
+      .text()
+      .replace(/\s+/g, " ")
+      .replace("(view map) ", "")
+      .trim().split("since ")[1].split(".")[0],
 
     // Bills
     // Issue Areas
@@ -157,20 +173,13 @@ const Profile = ({ route, navigation }) => {
   useEffect(() => {
     scrapeData();
     setD(data);
-    console.log(data)
   }, []);
 
-  const scrapeCallback = () => {
-    const bioSplit = d.about.split(". ")[0] + ".";
-    setShortBio(bioSplit);
-    setBio(d.about.replace(bioSplit + " ", ""));
 
-    setLoading(false);
-  };
 
   return (
-    <SafeAreaView style={styles.wrapper}>
-      <TopNav navigation={ navigation }/>
+    <View style={styles.wrapper}>
+      <TopNav route={route} navigation={ navigation } />
       <View style={styles.innerWrapper}>
         <View style={styles.headerContainer}>
           <View style={styles.col}>
@@ -294,7 +303,7 @@ const Profile = ({ route, navigation }) => {
       </View>
       
       <ProfileTabs route={route} d={d} bio={bio} loading={loading} />
-    </SafeAreaView>
+    </View>
     
   );
 };

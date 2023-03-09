@@ -8,7 +8,8 @@ const styles = StyleSheet.create({
   
   
   wrapper: {
-    height: "100%",
+    // height: "100%",
+    flex: 1,
     backgroundColor: "white",
     
   },
@@ -189,6 +190,7 @@ minWidth:"80%",
       minHeight: 50,
       resizeMode: "cover",
       flex: 1,
+      backgroundColor: "#252525",
       // width: 100,
     }
   });
