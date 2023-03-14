@@ -66,7 +66,7 @@ margin: 0,
 paddingRight: 12,
 },
 placeholder: {
-  color: "#AFB1B7",
+  color: "#111315",
 },
 input: {
 minHeight: 60,

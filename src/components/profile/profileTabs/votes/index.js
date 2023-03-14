@@ -26,7 +26,7 @@ const Votes = ({ route, navigation }) => {
   
   
   return (
-    <ScrollView style={styles.wrapper}>
+    <View style={styles.wrapper}>
       
 
         <View style={styles.carousel}>
@@ -131,7 +131,7 @@ const Votes = ({ route, navigation }) => {
           <Text style={styles.title}>Votes Missed</Text>
           <Text style={styles.subtitle}>This Term</Text>
         </View>
-        <Text style={styles.title}>{i.missed_votes}</Text>
+        <Text style={styles.title}>{i.missed_votes_pct}%</Text>
       </View>
       <View style={styles.section}>
         <View style={styles.column}>
@@ -140,7 +140,7 @@ const Votes = ({ route, navigation }) => {
         </View>
         <Text style={styles.title}>{i.votes_with_party_pct}%</Text>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 export default Votes;

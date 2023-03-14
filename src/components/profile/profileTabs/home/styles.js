@@ -14,6 +14,15 @@ const styles = StyleSheet.create({
     // marginRight: 24,
     // marginTop: 24,
   },
+  loading: {
+    flex: 1,
+    position: "absolute",
+    justifyContent: "center",
+    minHeight: 260,
+    height: 260,
+    width: "100%",
+
+  },
   section: {
     display: "flex",
     flexDirection:"row",
@@ -112,6 +121,21 @@ marginBottom: "10%",
     fontSize: 15,
     color: "white",
     fontWeight: "600",
+  },
+
+
+
+  text: {
+
+    
+    color: "#111315",
+    fontSize: 14,
+    fontFamily: "System",
+    fontWeight: "400",
+  
+    marginBottom: 8,
+    lineHeight: 20,
+    marginTop: 16,
   },
 
 });

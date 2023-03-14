@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
 
 navspacer: {
-  backgroundColor: "#111315",
+  backgroundColor: "#fff",
 flex: 1,
 },
 topnav: {
@@ -15,10 +15,13 @@ topnav: {
     paddingRight: 24,
   alignItems: "center",
   justifyContent:"space-between",
-  backgroundColor: "#111315",
+  // backgroundColor: "#111315",
+  backgroundColor: "#fff",
   borderTopWidth: 1,
-  // borderTopColor: "#EFEEF1",
-  borderTopColor: "#3C3E40",
+  borderTopColor: "#EFEEF1",
+  borderBottomWidth: 1,
+  borderBottomColor: "#EFEEF1",
+  // borderTopColor: "#3C3E40",
  
   },
   right: {
@@ -77,12 +80,12 @@ topnav: {
     
   },
   lefttext: {
-    color: "#fff",
+    color: "#111315",
     fontWeight: 400,
     fontSize: 20,
     flex: 1,
     // alignSelf: "center",
-    textAlign: "left",
+    textAlign: "center",
     
   },
   

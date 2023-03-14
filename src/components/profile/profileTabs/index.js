@@ -1,5 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import Home from "./home/index";
 import Votes from "./votes/index";
 import Bills from "./bills/index";
@@ -10,20 +10,18 @@ import { SvgUri } from 'react-native-svg';
 import Icon from "react-native-vector-icons/Feather";
 
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { load } from "cheerio";
-import { View, Text } from "react-native";
 
-const Tab = createMaterialTopTabNavigator();
 
-const ProfileTabs = ({route, navigation, d, bio,loading}) => {
+
+const ProfileTabs = ({route, navigation, d, bio, loading}) => {
   const {i, index} = route.params;
 
-
   const iconSize = 28;
-
+  const Tab = createMaterialTopTabNavigator();
 
   return (
-    <Tab.Navigator initialRouteName="Home" sceneContainerStyle={styles.navigator} screenOptions={{
+
+    <Tab.Navigator  initialRouteName="Home" sceneContainerStyle={styles.navigator} screenOptions={{
       tabBarActiveTintColor: '#111315',
       tabBarInactiveTintColor: '#AFB1B7',
       tabBarContentContainerStyle: styles.content,
@@ -35,7 +33,6 @@ const ProfileTabs = ({route, navigation, d, bio,loading}) => {
       tabBarScrollEnabled: false,
       tabBarShowIcon: true,
       tabBarShowLabel: true,
-
     }}>
       <Tab.Screen name="Home" component={Home} initialParams={{ i: i, d: d, bio, loading: loading}} options={{
         // tabBarIcon: ({focused}) => (
@@ -77,6 +74,7 @@ const ProfileTabs = ({route, navigation, d, bio,loading}) => {
         // )
       }}/> */}
     </Tab.Navigator>
+
   );
 }
 export default ProfileTabs;

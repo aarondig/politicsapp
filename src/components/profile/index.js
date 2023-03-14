@@ -1,6 +1,6 @@
 <script src="http://localhost:8097"></script>;
 import { NavigationContainer } from "@react-navigation/native";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState, Suspense } from "react";
 import {
   SafeAreaView,
   View,
@@ -20,8 +20,20 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TopNav from "../topnav/index.js";
 import { states } from "../../data/states.js";
 
+const Loading = () => {
+  return <Text> LOADING</Text>
+}
+
 const Profile = ({ route, navigation }) => {
   const { i, index } = route.params;
+const header = useRef();
+const scroller = useRef();
+
+useEffect(()=>{
+  console.log(scroller.current)
+  // scroller.current.style.height = window.innerHeight + header.current.getBoundingClientRect().height
+  
+},[])
 
   // GovTrack Scrapper
   const cheerio = require("cheerio");
@@ -31,8 +43,8 @@ const Profile = ({ route, navigation }) => {
       served_since: "",
     },
     bills: {
-      issues: {},
-      recent: {},
+      issues: [],
+      recent: [],
       disclaimer: {},
     },
     votes: [],
@@ -42,13 +54,13 @@ const Profile = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
 
   const [bio, setBio] = useState();
-  const [shortBio, setShortBio] = useState();
-
+  const [shortBio, setShortBio] = useState("Loading...");
 
   const scrapeCallback = () => {
     const bioSplit = d.about.text.split(". ")[0] + ".";
     setShortBio(bioSplit);
-    // setBio(d.about.replace(bioSplit + " ", ""));
+    // setBio(d.about.text.replace(bioSplit + " ", ""));
+    setBio(d.about.text);
     setLoading(false);
   };
 
@@ -65,41 +77,47 @@ const Profile = ({ route, navigation }) => {
       .replace(/\s+/g, " ")
       .replace("(view map) ", "")
       .trim();
-      data.about.served_since = $("#track_panel_base > div > p")
+    (data.about.served_since = $("#track_panel_base > div > p")
       .text()
       .replace(/\s+/g, " ")
       .replace("(view map) ", "")
-      .trim().split("since ")[1].split(".")[0],
+      .trim()
+      .split("since ")[1]
+      .split(".")[0]),
+      // Bills
+      // Issue Areas
+      $("#sponsorship > p:nth-child(4) > span").each((key, item) => {
+        var index = key + 1;
 
-    // Bills
-    // Issue Areas
-    $("#sponsorship > p:nth-child(4) > span").each((key, item) => {
-      var index = key + 1;
-
-      data.bills.issues[index] = {
-        area: $(`#sponsorship > p:nth-child(4) > span:nth-child(${index}) > a`)
-          .text()
-          .trim(),
-        percent: $(`#sponsorship > p:nth-child(4) > span:nth-child(${index})`)
-          .text()
-          .trim()
-          .slice(-5)
-          .trim()
-          .replace("(", "")
-          .replace(")", ""),
-      };
-    });
+        data.bills.issues.push({
+          area: $(
+            `#sponsorship > p:nth-child(4) > span:nth-child(${index}) > a`
+          )
+            .text()
+            .trim(),
+          percent: $(`#sponsorship > p:nth-child(4) > span:nth-child(${index})`)
+            .text()
+            .trim()
+            .slice(-5)
+            .trim()
+            .replace("(", "")
+            .replace(")", ""),
+        });
+      });
     //Recent Bills
     $("#sponsorship > ul > li").each((key, item) => {
       var index = key + 1;
-      data.bills.recent[index] = {
-        num: $(`#sponsorship > ul > li:nth-child(${key}) > a`)
+      data.bills.recent.push({
+        num: $(`#sponsorship > ul > li:nth-child(${index}) > a`)
           .text()
           .split(": ")[0],
-        title: $(`#sponsorship > ul > li:nth-child(${key}) > a`)
+        title: $(`#sponsorship > ul > li:nth-child(${index}) > a`)
           .text()
           .split(": ")[1],
-      };
+        link:
+          "https://www.govtrack.us/" +
+          $(`#sponsorship > ul > li:nth-child(${index}) > a`).attr("href"),
+      });
     });
     //Disclaimer
     data.bills.disclaimer = $("#sponsorship > p:nth-child(9)").text().trim();
@@ -113,24 +131,34 @@ const Profile = ({ route, navigation }) => {
         num: $(
           `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
         )
-          .text().includes(":") ? ($(
-            `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
-          )
-            .text().includes("Nomination") ? "Nomination" : $(
-            `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
-          )
-            .text()
-            .split(": ")[0].split("(")[0]) : null,
+          .text()
+          .includes(":")
+          ? $(
+              `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
+            )
+              .text()
+              .includes("Nomination")
+            ? "Nomination"
+            : $(
+                `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
+              )
+                .text()
+                .split(": ")[0]
+                .split("(")[0]
+          : null,
         title: $(
           `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
         )
-          .text().includes(":") ? $(
-            `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
-          )
-            .text().split(": ")[1] : $(
+          .text()
+          .includes(":")
+          ? $(
               `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
             )
-            .text(),
+              .text()
+              .split(": ")[1]
+          : $(
+              `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
+            ).text(),
         vote: $(
           `#voting-record > div.row > div:nth-child(${index}) > div > h4 > b`
         ).text(),
@@ -159,9 +187,11 @@ const Profile = ({ route, navigation }) => {
           .text()
           .trim()
           .split(" ")[1],
-          link: "https://www.govtrack.us/" + $(
+        link:
+          "https://www.govtrack.us/" +
+          $(
             `#voting-record > div.row > div:nth-child(${index}) > div > div > div:nth-child(1) > a`
-          ).attr('href'),
+          ).attr("href"),
       });
     });
     scrapeCallback();
@@ -175,12 +205,11 @@ const Profile = ({ route, navigation }) => {
     setD(data);
   }, []);
 
-
-
   return (
-    <View style={styles.wrapper}>
-      <TopNav route={route} navigation={ navigation } />
-      <View style={styles.innerWrapper}>
+    <View style={styles.wrapper}bounces={false} >
+      <TopNav route={route} navigation={navigation} />
+      <ScrollView bounces={false} contentContainerStyle={{ height: 1200 }}>
+      <View ref={header} style={styles.innerWrapper}>
         <View style={styles.headerContainer}>
           <View style={styles.col}>
             <View style={styles.imageContainer}>
@@ -259,33 +288,30 @@ const Profile = ({ route, navigation }) => {
           </View>
         </View> */}
 
-
-
-{/*         
-        {loading ? (
-          <></>
-        ) : ( */}
-          <View style={styles.bio}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.title}>
-                {i.first_name + " " + i.last_name}
-              </Text>
-              <Text style={styles.subtitle}>
-                {i.title.match("Senator") || i.title.match("Rep")} of{" "}
-                {states[i.state]}{" "}
-                {i.district !== undefined && `District ${i.district}`}
-              </Text>
-            </View>
-            <Text style={styles.p}>{shortBio}</Text>
-            <Text style={styles.link} onPress={() => Linking.openURL(i.url)}>
-              
-              
-              {i.short_title === "Sen." ? i.url.split(".")[1] + "." + i.url.split(".")[2] + "." + i.url.split(".")[3] : i.url.split("://")[1]}
+        <View style={styles.bio}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{i.first_name + " " + i.last_name}</Text>
+            <Text style={styles.subtitle}>
+              {i.title.match("Senator") || i.title.match("Rep")} of{" "}
+              {states[i.state]}{" "}
+              {i.district !== undefined && `District ${i.district}`}
             </Text>
           </View>
-        {/* )} */}
+          
+          <Text style={styles.p}>{shortBio}</Text>
+       
+          <Text style={styles.link} onPress={() => Linking.openURL(i.url)}>
+            {i.short_title === "Sen."
+              ? i.url.split(".")[1] +
+                "." +
+                i.url.split(".")[2] +
+                "." +
+                i.url.split(".")[3]
+              : i.url.split("://")[1]}
+          </Text>
+        </View>
         <View style={styles.buttonrow}>
-        <Pressable style={styles.primarybutton}>
+          <Pressable style={styles.primarybutton}>
             <Text style={styles.primarybuttontext}>Follow</Text>
             {/* <Icon name="plus" size={18} color="#ffffff"></Icon> */}
           </Pressable>
@@ -297,14 +323,12 @@ const Profile = ({ route, navigation }) => {
             {/* <Text style={styles.secondarybuttontext}>Share Profile</Text> */}
             <Icon name="plus" size={18} color="#111315"></Icon>
           </Pressable>
-         
-          
-          </View>
-      </View>
+        </View>
       
+        </View>
       <ProfileTabs route={route} d={d} bio={bio} loading={loading} />
+      </ScrollView>
     </View>
-    
   );
 };
 export default Profile;

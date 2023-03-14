@@ -11,21 +11,21 @@ import {
   Dimensions,
   TouchableOpacity,
   LayoutAnimation,
+  ActivityIndicator,
 } from "react-native";
 import { TabBarItem } from "react-native-tab-view";
 import FeatherIcon from "react-native-vector-icons/Feather";
+import Loading from "../../../loading/index.js";
 
 import styles from "./styles.js";
 
 const Home = ({ route, navigation }) => {
   const { i, index, d, bio, loading } = route.params;
-  const [isOpen, setIsOpen] = useState(false); 
-const toggleOpen = () => {
-  LayoutAnimation.configureNext
-}
+  const [isOpen, setIsOpen] = useState(false);
+
   // const Issues = () => {
   //   Object.keys(d.bills.issues).map((item, key) => {
-  // console.log(item)
+
   //     return <View style={styles.issue} key={key}>
   //       <View style={styles.iHeaderC}>
   //       <Text style={styles.iHeaderST}>{d.bills.issues[key]}</Text>
@@ -38,13 +38,20 @@ const toggleOpen = () => {
   return (
     <View style={styles.wrapper}>
       {loading ? (
-        <></>
+        <Loading />
       ) : (
         <View style={styles.innerWrapper}>
-          <Pressable style={styles.section}>
+          {/* <Pressable style={styles.section} onPress={() => {
+              navigation.navigate("Bio", {
+                i: i,
+                index: index,
+                bio: bio,
+                d: d,
+              });
+            }}>
             <View style={styles.column}>
             <Text style={styles.title}>Read Bio</Text>
-            <Text style={styles.subtitle}>Something SOmething</Text>
+            <Text style={styles.subtitle}>{bio.slice(0,24) + "..."}</Text>
             </View>
             <FeatherIcon
       // style={styles.rightnavicon}
@@ -52,11 +59,30 @@ const toggleOpen = () => {
       size={24}
       color="#111315"
     />
-          </Pressable>
+          </Pressable> */}
           <View style={styles.section}>
             <View style={styles.column}>
-            <Text style={styles.title}>Next Election</Text>
-            <Text style={styles.subtitle}>In Office Since ___</Text>
+              {/* <View style={styles.imageContainer}>
+              <Image
+                style={styles.image}
+                source={{
+                  // 450x550
+                  uri: `https://theunitedstates.io/images/congress/225x275/${i.id}.jpg`,
+                }}
+              />
+            </View> */}
+              <Text style={styles.subtitle}>About</Text>
+              {/* <Text style={styles.subtitle}>This Term</Text> */}
+
+              <Text style={styles.text}>{bio}</Text>
+            </View>
+          </View>
+          <View style={styles.section}>
+            <View style={styles.column}>
+              <Text style={styles.title}>Next Election</Text>
+              <Text style={styles.subtitle}>
+                In Office Since {d.about.served_since}
+              </Text>
             </View>
             <Text style={styles.title}>{i.next_election}</Text>
           </View>
@@ -64,6 +90,13 @@ const toggleOpen = () => {
             <Text style={styles.header}>About</Text>
             <Text style={styles.p}>{bio}</Text>
           </View> */}
+          {/* <View style={styles.section}>
+            <View style={styles.column}>
+              {d.bills.issues.map((el, i)=>{
+
+              })}
+            </View>  
+            </View> */}
           {/* <View style={styles.issues}>
             <TouchableOpacity style={styles.acc} onPress={() => {}}>
               <Text style={styles.header}>Sponsored Issues</Text>

@@ -31,7 +31,6 @@ const Search = ({ navigation }) => {
   let filtered = [];
   // let recent = [];
 
-
   const requestData = async () => {
     try {
       if (!downloaded) {
@@ -81,7 +80,7 @@ const Search = ({ navigation }) => {
   };
 
   //Search
-  const [input, setInput] = useState();
+  const [input, setInput] = useState("");
 
   // const Filtered = () => data &&
   //   data
@@ -142,7 +141,6 @@ const Search = ({ navigation }) => {
 
   // Filtering
   useEffect(() => {
-   
     if (data) {
       filtered = [];
       data
@@ -155,19 +153,17 @@ const Search = ({ navigation }) => {
           return res;
         })
         .map((el, i) => {
-            filtered.push(el);
+          filtered.push(el);
         });
-      }
-    
-      if (input === "") {
-        setItems([])
-      } else {
-        setItems(filtered)
-      }
-      // setItems(filtered)
+    }
 
+    if (input === "") {
+      setItems([]);
+    } else {
+      setItems(filtered);
+    }
+    // setItems(filtered)
   }, [input]);
-
 
   // const header = () => {
   //   return (<View style={styles.section}>
@@ -198,7 +194,6 @@ const Search = ({ navigation }) => {
   //   </View>)
   // }
   const renderItem = ({ item, index }) => {
-    
     return (
       <Pressable
         key={index}
@@ -213,7 +208,7 @@ const Search = ({ navigation }) => {
         }}
       >
         <View style={styles.party}>
-        {/* 450x550 */}
+          {/* 450x550 */}
           <Image
             style={styles.image}
             source={{
@@ -236,88 +231,87 @@ const Search = ({ navigation }) => {
           </View>
           <View style={styles.tags}>
             <View style={styles.tag}>
-            
               <Text style={styles.tagtext}>{states[item.state]}</Text>
             </View>
             <View style={styles.tag}>
               <Text style={styles.tagtext}>
-                {item.title.match("Senator") || item.title.match("Representative") || item.title.match("Delegate")}
+                {item.title.match("Senator") ||
+                  item.title.match("Representative") ||
+                  item.title.match("Delegate")}
               </Text>
             </View>
           </View>
         </View>
       </Pressable>
     );
-        }
-  
-        const handleEmpty = () => {
-          return (
-          <><View style={styles.section}>
+  };
+
+  const handleEmpty = () => {
+    return input !== "" ? <View style={styles.section}>
           <Text style={styles.subtitle}>No results found for "{input}"</Text>
-          </View>
-          {/* <View style={styles.section}>
-          <Text style={styles.title}>Popular Searches</Text>
-          </View> */}
-          </>)
-        }
+        </View> 
+      : <View style={styles.section}>
+      <Text style={styles.title}>Popular Searches</Text>
+      </View> 
+      
+   
+  };
 
+  // Startup
+  useEffect(() => {
+    requestData();
+  }, []);
 
-
-// Startup
-        useEffect(()=>{
-          requestData()
-        },[])
-
-
-
-    
   return (
     <View style={styles.wrapper}>
-      
       <TopNav navigation={navigation} />
+      <SafeAreaView>
       <View style={styles.section}>
-      <View style={styles.row}>
-        <Text style={styles.pagetitle}>Search</Text>
+        <View style={styles.row}>
+          {/* <Text style={styles.pagetitle}>Search</Text> */}
+        </View>
+        <View style={styles.searchbar}>
+          <FeatherIcon
+            style={styles.searchbaricon}
+            name="search"
+            size={20}
+            color="#AFB1B7"
+          />
+          <TextInput
+            // style={
+            //   !downloaded ? { ...styles.inputAfter } : { ...styles.inputBefore }
+            // }
+            style={styles.input}
+            // placeholder="Search Lawmaker, Bill, or Topic"
+            placeholder="Search Lawmaker"
+            placeholderStyle={styles.placeholder}
+            placeholderTextColor="#AFB1B7"
+            textAlign="left"
+            value={input}
+            onChangeText={(text) => setInput(text)}
+            // onSubmitEditing={() => requestData()}
+          />
+        </View>
       </View>
-      <View style={styles.searchbar}>
-        <FeatherIcon
-          style={styles.searchbaricon}
-          name="search"
-          size={20}
-          color="#AFB1B7"
-        />
-        <TextInput
-          // style={
-          //   !downloaded ? { ...styles.inputAfter } : { ...styles.inputBefore }
-          // }
-          style={styles.input}
-          // placeholder="Search Lawmaker, Bill, or Topic"
-          placeholder="Search Lawmaker"
-          placeholderStyle={styles.placeholder}
-          textAlign="left"
-          value={input}
-          onChangeText={(text) => setInput(text)}
-          // onSubmitEditing={() => requestData()}
-        />
-      </View>
-    </View>
+      </SafeAreaView>
       {/* <View style={!downloaded ? { flex: 1, ...styles.page } : { flex: 1, ...styles.pageAfter }}> */}
-        {/* <ScrollView> */}
-          {items && (<FlatList
-              data={items}
-              extraData={items}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index}
-              // ListHeaderComponent={header}
-              ListEmptyComponent={handleEmpty}
-              maxToRenderPerBatch={5}
-            />)
-          }
-          {/* <View style={styles.container}>
+      {/* <ScrollView> */}
+      {items && (
+        <FlatList
+          data={items}
+          extraData={items}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index}
+          // ListHeaderComponent={header}
+          ListEmptyComponent={handleEmpty}
+          maxToRenderPerBatch={5}
+        />
+      )}
+      {/* <View style={styles.container}>
           
             <Filtered/>
           </View> */}
-        {/* </ScrollView> */}
+      {/* </ScrollView> */}
       {/* </View> */}
     </View>
   );
