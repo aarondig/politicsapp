@@ -19,7 +19,7 @@ export default function App() {
   return (
     <NavigationContainer>
     <Stack.Navigator cardStyle={{backgroundColor: '#111315'}} >
-      {/* <Stack.Screen name="Landing" component={Landing} options={{
+      <Stack.Screen name="Landing" component={Landing} options={{
           //  headerRight: () => headerRight(),
           
             // headerStyle: {
@@ -34,7 +34,7 @@ export default function App() {
             
             // },
           headerShown: false,
-          }}/> */}
+          }}/>
       <Stack.Screen name="Search" component={Search} options={{
         //  headerRight: () => headerRight(),
          
